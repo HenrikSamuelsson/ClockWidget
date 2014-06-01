@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">ClockWidget</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Hello clock!</string>
     <string name="action_settings">Settings</string>
 
 </resources>
