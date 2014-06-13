@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:background="@drawable/myshape"
     android:orientation="vertical">
@@ -12,7 +12,27 @@
         android:id="@+id/clock"
         style="@android:style/TextAppearance.Medium"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        android:gravity="center"
+        android:text="Static Text"></TextView>
+
+    <TextView
+        android:id="@+id/date"
+        style="@android:style/TextAppearance.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="4dp"
+        android:gravity="center"
+        android:text="Static Text"></TextView>
+
+    <TextView
+        android:id="@+id/week"
+        style="@android:style/TextAppearance.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="4dp"
         android:gravity="center"

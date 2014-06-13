@@ -18,7 +18,6 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
-
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new MyTime(context, appWidgetManager), 1, 1000);
     }
@@ -27,7 +26,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
         RemoteViews remoteViews;
         AppWidgetManager appWidgetManager;
         ComponentName thisWidget;
-        DateFormat format = SimpleDateFormat.getTimeInstance(SimpleDateFormat.MEDIUM, Locale.getDefault());
+        DateFormat clockFormat = SimpleDateFormat.getTimeInstance(SimpleDateFormat.MEDIUM, Locale.getDefault());
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM, Locale.getDefault());
+        SimpleDateFormat df = new SimpleDateFormat("w");
 
         public MyTime(Context context, AppWidgetManager appWidgetManager) {
             this.appWidgetManager = appWidgetManager;
@@ -37,8 +38,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
         @Override
         public void run() {
-            remoteViews.setTextViewText(R.id.clock, "TIME = " + format.format(new Date()
-            ));
+            remoteViews.setTextViewText(R.id.clock, clockFormat.format(new Date()));
+            remoteViews.setTextViewText(R.id.date, dateFormat.format(new Date()));
+            remoteViews.setTextViewText(R.id.week, "Week " + df.format(new Date()));
             appWidgetManager.updateAppWidget(thisWidget, remoteViews);
         }
     }
