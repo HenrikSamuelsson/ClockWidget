@@ -10,26 +10,23 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MyWidgetProvider extends AppWidgetProvider {
 
     //Custom Intent name that is used by the "AlarmManager" to update the clock once per second
     public static String CLOCK_UPDATE = "com.samdide.android.clockwidget.CLOCK_UPDATE";
 
-
+    private static String clockFormat = "HH:mm";
+    private static String dateFormat = "EEEE d MMMM";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
         final int N = appWidgetIds.length;
-        Log.d("onUpdate", "updating");
         for (int i = 0; i < N; i++) {
             int appWidgetId = appWidgetIds[i];
 
@@ -79,13 +76,12 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent){
         super.onReceive(context, intent);
-        Log.d("onReceive", "Received intent " + intent);
+        //Log.d("onReceive", "Received intent " + intent);
         if(CLOCK_UPDATE.equals(intent.getAction())){
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
             for (int appWidgetID: ids){
-
                 upDateAppWidget(context, appWidgetManager, appWidgetID);
             }
         }
@@ -94,12 +90,19 @@ public class MyWidgetProvider extends AppWidgetProvider {
         // Get the layout for the App Widget
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
-        //to update the textView (the clock)
-        Calendar calendar = Calendar.getInstance();
+        // Update the clock field.
+        SimpleDateFormat sdfClock = new SimpleDateFormat(clockFormat, Locale.getDefault());
+        views.setTextViewText(R.id.clock, sdfClock.format(new Date()));
+
+        // Update the date field.
+        SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat, Locale.getDefault());
+        views.setTextViewText(R.id.date, sdfDate.format(new Date()));
+
+        /*Calendar calendar = Calendar.getInstance();
         views.setTextViewText(R.id.clock, "Time: " + calendar.get(Calendar.HOUR) + ":"
                 + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND)
                 + "   Week: " + calendar.get(Calendar.WEEK_OF_YEAR));
-
+*/
         //Tell the AppWidgetManager to perform an update on the current app widget
         appWidgetManager.updateAppWidget(appWidgetID, views);
     }
