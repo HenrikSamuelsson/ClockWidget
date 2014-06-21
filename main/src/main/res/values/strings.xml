@@ -4,5 +4,7 @@
     <string name="app_name">ClockWidget</string>
     <string name="hello_world">Hello clock!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_clock">ClockActivity</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>

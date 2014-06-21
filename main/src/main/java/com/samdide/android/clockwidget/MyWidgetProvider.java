@@ -22,10 +22,14 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
     //Custom Intent name that is used by the "AlarmManager" to update the clock once per second
     public static String CLOCK_UPDATE = "com.samdide.android.clockwidget.CLOCK_UPDATE";
+
+
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
         final int N = appWidgetIds.length;
+        Log.d("onUpdate", "updating");
         for (int i = 0; i < N; i++) {
             int appWidgetId = appWidgetIds[i];
 
@@ -33,11 +37,22 @@ public class MyWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
             //to update the textView
-            views.setTextViewText(R.id.clock, "test");
+            views.setTextViewText(R.id.clock, "building clock");
+
+
+
+            // Create an Intent to launch ExampleActivity
+            Intent activityIntent = new Intent(context, ClockActivity.class);
+            PendingIntent pendingActivityIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
+
+            // Get the layout for the App Widget and attach an on-click listener
+            //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+            views.setOnClickPendingIntent(R.id.layout, pendingActivityIntent);
 
             //Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+
 
     }
 
@@ -49,6 +64,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context){
         super.onEnabled(context);
+        Log.d("onEnabled", "enabled");
         Calendar calendar = Calendar.getInstance();
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(context.ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000, createClockTickIntent(context));
@@ -63,12 +79,13 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent){
         super.onReceive(context, intent);
-        //Log.d("onReceive", "Received intent " + intent);
+        Log.d("onReceive", "Received intent " + intent);
         if(CLOCK_UPDATE.equals(intent.getAction())){
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
             for (int appWidgetID: ids){
+
                 upDateAppWidget(context, appWidgetManager, appWidgetID);
             }
         }
