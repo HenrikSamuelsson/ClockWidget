@@ -50,7 +50,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.layout, pendingActivityIntent);
 
             //Tell the AppWidgetManager to perform an update on the current app widget
-            appWidgetManager.updateAppWidget(appWidgetId, views);
+            upDateAppWidget(context, appWidgetManager, appWidgetId);
         }
 
 
