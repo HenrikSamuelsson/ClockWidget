@@ -22,6 +22,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
     private static String clockFormat = "HH:mm";
     private static String dateFormat = "EEEE d MMMM";
+    private static String weekFormat = "w";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -90,13 +91,19 @@ public class MyWidgetProvider extends AppWidgetProvider {
         // Get the layout for the App Widget
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
+        Date date = new Date();
+
         // Update the clock field.
         SimpleDateFormat sdfClock = new SimpleDateFormat(clockFormat, Locale.getDefault());
-        views.setTextViewText(R.id.clock, sdfClock.format(new Date()));
+        views.setTextViewText(R.id.clock, sdfClock.format(date));
 
         // Update the date field.
         SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat, Locale.getDefault());
-        views.setTextViewText(R.id.date, sdfDate.format(new Date()));
+        views.setTextViewText(R.id.date, sdfDate.format(date));
+
+        // Update the week field.
+        SimpleDateFormat sdfWeek = new SimpleDateFormat(weekFormat, Locale.getDefault());
+        views.setTextViewText(R.id.week, "Vecka " + sdfWeek.format(date));
 
         /*Calendar calendar = Calendar.getInstance();
         views.setTextViewText(R.id.clock, "Time: " + calendar.get(Calendar.HOUR) + ":"
