@@ -103,7 +103,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
         // Update the week field.
         SimpleDateFormat sdfWeek = new SimpleDateFormat(weekFormat, Locale.getDefault());
-        views.setTextViewText(R.id.week, "Vecka " + sdfWeek.format(date));
+        String w = context.getResources().getString(R.string.week);
+        views.setTextViewText(R.id.week, w + " " + sdfWeek.format(date));
 
         /*Calendar calendar = Calendar.getInstance();
         views.setTextViewText(R.id.clock, "Time: " + calendar.get(Calendar.HOUR) + ":"
