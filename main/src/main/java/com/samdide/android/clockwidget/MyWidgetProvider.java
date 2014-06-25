@@ -22,32 +22,33 @@ public class MyWidgetProvider extends AppWidgetProvider {
 
     private static String clockFormat = "HH:mm";
     private static String dateFormat = "EEEE d MMMM";
-   // Log.d("onCreate", "testing");
+    private static String weekFormat = "w";
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
         final int N = appWidgetIds.length;
         for (int i = 0; i < N; i++) {
             int appWidgetId = appWidgetIds[i];
-            Log.d("onUpdate", "updating");
+
             // Get the layout for the App Widget
-            RemoteViews views = new RemoteViews(context.getPackageName(), com.samdide.android.clockwidget.R.layout.widget_layout);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
             //to update the textView
-            views.setTextViewText(com.samdide.android.clockwidget.R.id.clock, "building clock");
+            views.setTextViewText(R.id.clock, "building clock");
 
 
 
-            // Create an Intent to launch ClockActivity
+            // Create an Intent to launch ExampleActivity
             Intent activityIntent = new Intent(context, ClockActivity.class);
             PendingIntent pendingActivityIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
 
             // Get the layout for the App Widget and attach an on-click listener
             //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            views.setOnClickPendingIntent(com.samdide.android.clockwidget.R.id.layout, pendingActivityIntent);
+            views.setOnClickPendingIntent(R.id.layout, pendingActivityIntent);
 
             //Tell the AppWidgetManager to perform an update on the current app widget
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            appWidgetManager.updateAppWidget(appWidgetId, views);
         }
 
 
@@ -82,34 +83,34 @@ public class MyWidgetProvider extends AppWidgetProvider {
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
             for (int appWidgetID: ids){
-                updateAppWidget(context, appWidgetManager, appWidgetID);
+                upDateAppWidget(context, appWidgetManager, appWidgetID);
             }
         }
     }
-    public void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetID){
+    public void upDateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetID){
         // Get the layout for the App Widget
-        RemoteViews views = new RemoteViews(context.getPackageName(), com.samdide.android.clockwidget.R.layout.widget_layout);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
+
+        Date date = new Date();
 
         // Update the clock field.
         SimpleDateFormat sdfClock = new SimpleDateFormat(clockFormat, Locale.getDefault());
-        views.setTextViewText(com.samdide.android.clockwidget.R.id.clock, sdfClock.format(new Date()));
+        views.setTextViewText(R.id.clock, sdfClock.format(date));
 
         // Update the date field.
         SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat, Locale.getDefault());
-        views.setTextViewText(com.samdide.android.clockwidget.R.id.date, sdfDate.format(new Date()));
+        views.setTextViewText(R.id.date, sdfDate.format(date));
+
+        // Update the week field.
+        SimpleDateFormat sdfWeek = new SimpleDateFormat(weekFormat, Locale.getDefault());
+        String w = context.getResources().getString(R.string.week);
+        views.setTextViewText(R.id.week, w + " " + sdfWeek.format(date));
 
         /*Calendar calendar = Calendar.getInstance();
         views.setTextViewText(R.id.clock, "Time: " + calendar.get(Calendar.HOUR) + ":"
                 + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND)
                 + "   Week: " + calendar.get(Calendar.WEEK_OF_YEAR));
 */
-        // Create an Intent to launch ClockActivity
-        Intent activityIntent = new Intent(context, com.samdide.android.clockwidget.ClockActivity.class);
-        PendingIntent pendingActivityIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
-
-        // Get the layout for the App Widget and attach an on-click listener
-        //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-        views.setOnClickPendingIntent(com.samdide.android.clockwidget.R.id.layout, pendingActivityIntent);
         //Tell the AppWidgetManager to perform an update on the current app widget
         appWidgetManager.updateAppWidget(appWidgetID, views);
     }
