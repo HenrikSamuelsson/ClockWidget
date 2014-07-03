@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/myshape"
     android:clickable="true"
     android:orientation="horizontal">
 
@@ -15,37 +14,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="2dp"
-        android:textSize="52sp"
-        android:gravity="center"
+        android:layout_marginRight="10dp"
+        android:textSize="64sp"
+        android:shadowColor="@color/text_shadow"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius="5"
         android:text="Static Text"></TextView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:orientation="vertical">
 
         <TextView
             android:id="@+id/date"
             style="@android:style/TextAppearance.Medium"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="2dp"
-            android:gravity="left"
-            android:text="Static Text"></TextView>
+            android:text="Static Text"
+            android:layout_above="@+id/week"
+            android:layout_toRightOf="@+id/clock"
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="2"></TextView>
 
         <TextView
             android:id="@+id/week"
             style="@android:style/TextAppearance.Medium"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="2dp"
-            android:gravity="left"
-            android:text="Static Text"></TextView>
+            android:layout_marginTop="4dp"
+            android:text="Static Text"
+            android:layout_alignBaseline="@+id/clock"
+            android:layout_alignBottom="@+id/clock"
+            android:layout_toRightOf="@+id/clock"
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="2"></TextView>
 
-    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
