@@ -11,7 +11,6 @@ import android.util.Log;
 import android.widget.RemoteViews;
 
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,9 +21,10 @@ public class MyWidgetProvider extends AppWidgetProvider {
     //Custom Intent name that is used by the "AlarmManager" to update the clock once per second
     public static String CLOCK_UPDATE = "com.samdide.android.clockwidget.CLOCK_UPDATE";
 
-    private static String clock24Format = "HH:mm";
-    private static String clock12Format = "h:mm";
-    private static String dateFormat = "EEEE d MMMM";
+    private static String hour24Format = "HH";
+    private static String hour12Format = "h";
+    private static String minuteFormat = "mm";
+    private static String dateFormat = "EEE d MMM";
     private static String weekFormat = "w";
     private static String amPmFormat = "a";
 
@@ -39,7 +39,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
             //to update the textView
-            views.setTextViewText(R.id.clock, "building clock");
+            views.setTextViewText(R.id.hour, "building clock");
 
 
 
@@ -99,14 +99,19 @@ public class MyWidgetProvider extends AppWidgetProvider {
         // Check if the user wants 12 oc 24 hour clock.
         String value = android.provider.Settings.System.getString(context.getContentResolver(), android.provider.Settings.System.TIME_12_24);
 
-        // Update the clock field.
-        SimpleDateFormat sdfClock;
+        // Update the hour field.
+        SimpleDateFormat sdfHour;
         if(value.equals("12")) {
-            sdfClock = new SimpleDateFormat(clock12Format, Locale.getDefault());
+            sdfHour = new SimpleDateFormat(hour12Format, Locale.getDefault());
         } else {
-            sdfClock = new SimpleDateFormat(clock24Format, Locale.getDefault());
+            sdfHour = new SimpleDateFormat(hour24Format, Locale.getDefault());
         }
-        views.setTextViewText(R.id.clock, sdfClock.format(date));
+        views.setTextViewText(R.id.hour, sdfHour.format(date));
+
+        // Update the minute field.
+        SimpleDateFormat sdfMinute;
+        sdfMinute = new SimpleDateFormat(minuteFormat, Locale.getDefault());
+        views.setTextViewText(R.id.minute, sdfMinute.format(date));
 
         // Update the am/pm field.
         if(value.equals("12")) {
