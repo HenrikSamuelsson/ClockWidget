@@ -14,10 +14,8 @@
         style="@android:style/TextAppearance.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="2dp"
-        android:textSize="52sp"
-        android:gravity="center"
+        android:textSize="48sp"
+        android:gravity="left"
         android:text="Static Text"></TextView>
 
     <LinearLayout
@@ -28,21 +26,17 @@
 
         <TextView
             android:id="@+id/date"
-            style="@android:style/TextAppearance.Medium"
+            android:textSize="12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="2dp"
             android:gravity="left"
             android:text="Static Text"></TextView>
 
         <TextView
             android:id="@+id/week"
-            style="@android:style/TextAppearance.Medium"
+            android:textSize="12sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="2dp"
             android:gravity="left"
             android:text="Static Text"></TextView>
 
