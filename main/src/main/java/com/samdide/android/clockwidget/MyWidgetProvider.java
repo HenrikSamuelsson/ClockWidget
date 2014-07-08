@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,9 +21,12 @@ public class MyWidgetProvider extends AppWidgetProvider {
     //Custom Intent name that is used by the "AlarmManager" to update the clock once per second
     public static String CLOCK_UPDATE = "com.samdide.android.clockwidget.CLOCK_UPDATE";
 
-    private static String clockFormat = "HH:mm";
-    private static String dateFormat = "EEEE d MMMM";
+    private static String hour24Format = "HH";
+    private static String hour12Format = "h";
+    private static String minuteFormat = "mm";
+    private static String dateFormat = "EEE d MMM";
     private static String weekFormat = "w";
+    private static String amPmFormat = "a";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -35,7 +39,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
             //to update the textView
-            views.setTextViewText(R.id.clock, "building clock");
+            views.setTextViewText(R.id.hour, "building clock");
 
 
 
@@ -90,20 +94,41 @@ public class MyWidgetProvider extends AppWidgetProvider {
     public void upDateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetID){
         // Get the layout for the App Widget
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-
         Date date = new Date();
 
-        // Update the clock field.
-        SimpleDateFormat sdfClock = new SimpleDateFormat(clockFormat, Locale.getDefault());
-        views.setTextViewText(R.id.clock, sdfClock.format(date));
+        // Check if the user wants 12 oc 24 hour clock.
+        String value = android.provider.Settings.System.getString(context.getContentResolver(), android.provider.Settings.System.TIME_12_24);
+
+        // Update the hour field.
+        SimpleDateFormat sdfHour;
+        if(value.equals("12")) {
+            sdfHour = new SimpleDateFormat(hour12Format, Locale.getDefault());
+        } else {
+            sdfHour = new SimpleDateFormat(hour24Format, Locale.getDefault());
+        }
+        views.setTextViewText(R.id.hour, sdfHour.format(date));
+
+        // Update the minute field.
+        SimpleDateFormat sdfMinute;
+        sdfMinute = new SimpleDateFormat(minuteFormat, Locale.getDefault());
+        views.setTextViewText(R.id.minute, sdfMinute.format(date));
+
+        // Update the am/pm field.
+        if(value.equals("12")) {
+            SimpleDateFormat sdfAmPm = new SimpleDateFormat(amPmFormat, Locale.getDefault());
+            views.setTextViewText(R.id.ampm, sdfAmPm.format(date));
+        } else {
+            views.setTextViewText(R.id.ampm, "");
+        }
 
         // Update the date field.
         SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat, Locale.getDefault());
-        views.setTextViewText(R.id.date, sdfDate.format(date));
+        views.setTextViewText(R.id.date, sdfDate.format(date).toUpperCase());
 
         // Update the week field.
         SimpleDateFormat sdfWeek = new SimpleDateFormat(weekFormat, Locale.getDefault());
         String w = context.getResources().getString(R.string.week);
+        w = w.toUpperCase();
         views.setTextViewText(R.id.week, w + " " + sdfWeek.format(date));
 
         /*Calendar calendar = Calendar.getInstance();
