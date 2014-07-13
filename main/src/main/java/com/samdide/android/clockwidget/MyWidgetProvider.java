@@ -39,7 +39,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
 
             //to update the textView
-            views.setTextViewText(R.id.hour, "building clock");
+            upDateAppWidget(context, appWidgetManager, appWidgetId);
 
 
 
@@ -68,8 +68,12 @@ public class MyWidgetProvider extends AppWidgetProvider {
         super.onEnabled(context);
         Log.d("onEnabled", "enabled");
         Calendar calendar = Calendar.getInstance();
+        long oneMinuteFromNow = calendar.getTimeInMillis() + 60 * 1000;
+        long nextMinuteRollover = oneMinuteFromNow - (oneMinuteFromNow % (60 * 1000));
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(context.ALARM_SERVICE);
-        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000, createClockTickIntent(context));
+        // Set first alarm to next minute rollover and the repeat the alarm every one minute.
+        alarmManager.setRepeating(AlarmManager.RTC, nextMinuteRollover, 60 * 1000, createClockTickIntent(context));
+
     }
     @Override
     public void onDisabled(Context context){
@@ -81,7 +85,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent){
         super.onReceive(context, intent);
-        //Log.d("onReceive", "Received intent " + intent);
+        Log.d("onReceive", "Received intent " + intent);
         if(CLOCK_UPDATE.equals(intent.getAction())){
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -91,12 +95,13 @@ public class MyWidgetProvider extends AppWidgetProvider {
             }
         }
     }
+
     public void upDateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetID){
         // Get the layout for the App Widget
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         Date date = new Date();
 
-        // Check if the user wants 12 oc 24 hour clock.
+        // Check if the user wants 12 or 24 hour clock.
         String value = android.provider.Settings.System.getString(context.getContentResolver(), android.provider.Settings.System.TIME_12_24);
 
         // Update the hour field.
