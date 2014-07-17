@@ -5,4 +5,4 @@
     android:minHeight="40dp"
     android:minWidth="110dp"
     android:widgetCategory="keyguard|home_screen"
-    android:updatePeriodMillis="300000" />
+    android:updatePeriodMillis="0" />
