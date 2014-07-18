@@ -31,30 +31,6 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
-        final int N = appWidgetIds.length;
-        for (int i = 0; i < N; i++) {
-            int appWidgetId = appWidgetIds[i];
-
-            // Get the layout for the App Widget
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-
-            //to update the textView
-            upDateAppWidget(context, appWidgetManager, appWidgetId);
-
-
-
-            // Create an Intent to launch ExampleActivity
-            Intent activityIntent = new Intent(context, ClockActivity.class);
-            PendingIntent pendingActivityIntent = PendingIntent.getActivity(context, 0, activityIntent, 0);
-
-            // Get the layout for the App Widget and attach an on-click listener
-            //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-            views.setOnClickPendingIntent(R.id.layout, pendingActivityIntent);
-
-            //Tell the AppWidgetManager to perform an update on the current app widget
-            appWidgetManager.updateAppWidget(appWidgetId, views);
-        }
-
 
     }
 
@@ -66,7 +42,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context){
         super.onEnabled(context);
-        Log.d("onEnabled", "enabled");
+
         Calendar calendar = Calendar.getInstance();
         long oneMinuteFromNow = calendar.getTimeInMillis() + 60 * 1000;
         long nextMinuteRollover = oneMinuteFromNow - (oneMinuteFromNow % (60 * 1000));
@@ -85,7 +61,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onReceive(Context context, Intent intent){
         super.onReceive(context, intent);
-        Log.d("onReceive", "Received intent " + intent);
+
         if(CLOCK_UPDATE.equals(intent.getAction())){
             ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -97,6 +73,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
     }
 
     public void upDateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetID){
+
         // Get the layout for the App Widget
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
         Date date = new Date();
