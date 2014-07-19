@@ -46,10 +46,15 @@ public class MyWidgetProvider extends AppWidgetProvider {
         Calendar calendar = Calendar.getInstance();
         long oneMinuteFromNow = calendar.getTimeInMillis() + 60 * 1000;
         long nextMinuteRollover = oneMinuteFromNow - (oneMinuteFromNow % (60 * 1000));
+        long oneSecondFromNow = calendar.getTimeInMillis() + 1*1000;
+        long nextSecondRollover = oneSecondFromNow - (oneSecondFromNow % (1*1000));
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(context.ALARM_SERVICE);
         // Set first alarm to next minute rollover and the repeat the alarm every one minute.
         alarmManager.setRepeating(AlarmManager.RTC, nextMinuteRollover, 60 * 1000, createClockTickIntent(context));
 
+        AlarmManager startAlarmManager = (AlarmManager)context.getSystemService(context.ALARM_SERVICE);
+        // Set alarm to next second and don't repeat.
+        startAlarmManager.set(AlarmManager.RTC, nextSecondRollover, createClockTickIntent(context));
     }
     @Override
     public void onDisabled(Context context){
