@@ -5,4 +5,5 @@
     android:minHeight="40dp"
     android:minWidth="110dp"
     android:widgetCategory="keyguard|home_screen"
-    android:updatePeriodMillis="0" />
+    android:updatePeriodMillis="0"
+    android:previewImage="@drawable/what_week_preview"/>
