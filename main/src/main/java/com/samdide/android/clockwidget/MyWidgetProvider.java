@@ -31,7 +31,9 @@ public class MyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
-
+        for (int appWidgetID: appWidgetIds){
+            upDateAppWidget(context, appWidgetManager, appWidgetID);
+        }
     }
 
     private PendingIntent createClockTickIntent(Context context){
