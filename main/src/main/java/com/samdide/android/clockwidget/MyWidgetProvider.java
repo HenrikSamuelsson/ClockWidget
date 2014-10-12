@@ -33,6 +33,7 @@ public class MyWidgetProvider extends AppWidgetProvider {
                          int[] appWidgetIds) {
         for (int appWidgetID: appWidgetIds){
             upDateAppWidget(context, appWidgetManager, appWidgetID);
+            Log.d("onUpdate", "GO");
         }
     }
 
@@ -45,6 +46,8 @@ public class MyWidgetProvider extends AppWidgetProvider {
     public void onEnabled(Context context){
         super.onEnabled(context);
 
+        Log.d("onEnabled", "GO");
+
         Calendar calendar = Calendar.getInstance();
         long oneMinuteFromNow = calendar.getTimeInMillis() + 60 * 1000;
         long nextMinuteRollover = oneMinuteFromNow - (oneMinuteFromNow % (60 * 1000));
@@ -53,7 +56,6 @@ public class MyWidgetProvider extends AppWidgetProvider {
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(context.ALARM_SERVICE);
         // Set first alarm to next minute rollover and the repeat the alarm every one minute.
         alarmManager.setRepeating(AlarmManager.RTC, nextMinuteRollover, 60 * 1000, createClockTickIntent(context));
-
 
         // Update clock
         ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
